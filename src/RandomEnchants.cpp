@@ -87,7 +87,7 @@ public:
 		}
 	}
 
-	void OnQuestRewardItem(Player* player, Item* item, uint32 count) override
+	void OnQuestRewardItem(Player* player, Item* item, uint32 /*count*/) override
 	{
 		if (RandomEnchantEnabled)
 		{
