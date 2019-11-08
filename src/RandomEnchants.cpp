@@ -1,55 +1,131 @@
-/*
-* Converted from the original LUA script to a module for Azerothcore(Sunwell) :D
-*/
 #include "ScriptMgr.h"
-#include "Player.h"
 #include "Configuration/Config.h"
+#include "ObjectMgr.h"
 #include "Chat.h"
+#include "Player.h"
+#include "Object.h"
 
-class RandomEnchantsPlayer : public PlayerScript{
+bool RandomEnchantEnabled = true;
+bool RandomEnchantAnnounce = true;
+bool Crafted = 1;
+bool Looted = 1;
+bool QuestReward = 1;
+uint32 HighQuality = 5;
+uint32 LowQuality = 1;
+uint32 Chance1 = 60;
+uint32 Chance2 = 65;
+uint32 Chance3 = 70;
+
+class REConfig : public WorldScript
+{
+public:
+	REConfig() : WorldScript("REConfig") { }
+
+	void OnBeforeConfigLoad(bool reload) override
+	{
+		if (!reload) {
+			std::string conf_path = _CONF_DIR;
+			std::string cfg_file = conf_path + "/mod_randomenchants.conf";
+
+			std::string cfg_def_file = cfg_file + ".dist";
+			sConfigMgr->LoadMore(cfg_def_file.c_str());
+			sConfigMgr->LoadMore(cfg_file.c_str());
+
+			// Load Configuration Settings
+			SetInitialWorldSettings();
+		}
+	}
+
+	// Load Configuration Settings
+	void SetInitialWorldSettings()
+	{
+		RandomEnchantEnabled = sConfigMgr->GetBoolDefault("RandomEnchants.Enabled", true);
+		RandomEnchantAnnounce = sConfigMgr->GetBoolDefault("RandomEnchants.Announce", true);
+		Crafted = sConfigMgr->GetBoolDefault("RandomEnchants.OnCreate", 1);
+		Looted = sConfigMgr->GetBoolDefault("RandomEnchants.OnLoot", 1);
+		QuestReward = sConfigMgr->GetBoolDefault("RandomEnchants.OnQuestReward", 1);
+		HighQuality = sConfigMgr->GetIntDefault("RandomEnchants.HighQuality", 1);
+		LowQuality = sConfigMgr->GetIntDefault("RandomEnchants.LowQuality", 1);
+		Chance1 = sConfigMgr->GetIntDefault("RandomEnchants.Chance1", 60);
+		Chance2 = sConfigMgr->GetIntDefault("RandomEnchants.Chance2", 65);
+		Chance3 = sConfigMgr->GetIntDefault("RandomEnchants.Chance3", 70);
+
+		// Sanitize
+		if (HighQuality > 5) { HighQuality = 5; }
+		
+	}
+};
+
+class RandomEnchantsPlayer : public PlayerScript {
 public:
 
-    RandomEnchantsPlayer() : PlayerScript("RandomEnchantsPlayer") { }
+	RandomEnchantsPlayer() : PlayerScript("RandomEnchantsPlayer") { }
 
-    void OnLogin(Player* player) override {
-		if (sConfigMgr->GetBoolDefault("RandomEnchants.AnnounceOnLogin", true))
-            ChatHandler(player->GetSession()).SendSysMessage(sConfigMgr->GetStringDefault("RandomEnchants.OnLoginMessage", "This server is running a RandomEnchants Module.").c_str());
-    }
-	void OnLootItem(Player* player, Item* item, uint32 /*count*/, uint64 /*lootguid*/) override
+	void OnLogin(Player* player)  override
 	{
-		if (sConfigMgr->GetBoolDefault("RandomEnchants.OnLoot", true))
-			RollPossibleEnchant(player, item);
+		if (sConfigMgr->GetBoolDefault("RandomEnchants.Announce", true)) {
+			ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00RandomEnchants |rmodule.");
+		}
 	}
-	void OnCreateItem(Player* player, Item* item, uint32 /*count*/) override
+
+	void OnLootItem(Player* player, Item* item, uint32 count, uint64 /*lootguid*/) override
 	{
-		if (sConfigMgr->GetBoolDefault("RandomEnchants.OnCreate", true))
+		if (RandomEnchantEnabled)
+		{
 			RollPossibleEnchant(player, item);
+		}
 	}
-	void OnQuestRewardItem(Player* player, Item* item, uint32 /*count*/) override
+
+	void OnCreateItem(Player* player, Item* item, uint32 count) override
 	{
-		if(sConfigMgr->GetBoolDefault("RandomEnchants.OnQuestReward", true))
-			RollPossibleEnchant(player, item);
+		if (RandomEnchantEnabled)
+		{
+			if (Crafted == true)
+			{
+				RollPossibleEnchant(player, item);
+			}
+		}
 	}
+
+	void OnQuestRewardItem(Player* player, Item* item, uint32 count) override
+	{
+		if (RandomEnchantEnabled)
+		{
+			if (QuestReward == true)
+			{
+				RollPossibleEnchant(player, item);
+			}
+		}
+	}
+
 	void RollPossibleEnchant(Player* player, Item* item)
 	{
 		uint32 Quality = item->GetTemplate()->Quality;
 		uint32 Class = item->GetTemplate()->Class;
-		if ((Quality > 5 && Quality < 1)/*eliminates enchanting anything that isn't a recognized quality*/ || (Class != 2 && Class != 4)/*eliminates enchanting anything but weapons/armor*/)
+
+		// Weed out items ( needs more testing )
+		if ((Quality < LowQuality && Quality > HighQuality) || (Class != 2 && Class != 4))
+		{
+			// Eliminate enchanting anything that isn't a designated quality.
+			// Eliminate enchanting anything but weapons(2) and armor(4).
 			return;
+		}
+
+		// It's what we want..
 		int slotRand[3] = { -1, -1, -1 };
 		uint32 slotEnch[3] = { 0, 1, 5 };
 		double roll1 = rand_chance();
-		if (roll1 >= 70.0)
+		if (roll1 >= Chance1) //
 			slotRand[0] = getRandEnchantment(item);
 		if (slotRand[0] != -1)
 		{
 			double roll2 = rand_chance();
-			if (roll2 >= 65.0)
+			if (roll2 >= Chance2) //
 				slotRand[1] = getRandEnchantment(item);
 			if (slotRand[1] != -1)
 			{
 				double roll3 = rand_chance();
-				if (roll3 >= 60.0)
+				if (roll3 >= Chance3) //
 					slotRand[2] = getRandEnchantment(item);
 			}
 		}
@@ -57,7 +133,7 @@ public:
 		{
 			if (slotRand[i] != -1)
 			{
-				if (sSpellItemEnchantmentStore.LookupEntry(slotRand[i]))//Make sure enchantment id exists
+				if (sSpellItemEnchantmentStore.LookupEntry(slotRand[i])) //Make sure enchantment id exists
 				{
 					player->ApplyEnchantment(item, EnchantmentSlot(slotEnch[i]), false);
 					item->SetEnchantment(EnchantmentSlot(slotEnch[i]), slotRand[i], 0, 0);
@@ -67,12 +143,13 @@ public:
 		}
 		ChatHandler chathandle = ChatHandler(player->GetSession());
 		if (slotRand[2] != -1)
-			chathandle.PSendSysMessage("Newly Acquired |cffFF0000 %s |rhas received|cffFF0000 3 |rrandom enchantments!", item->GetTemplate()->Name1.c_str());
-		else if(slotRand[1] != -1)
-			chathandle.PSendSysMessage("Newly Acquired |cffFF0000 %s |rhas received|cffFF0000 2 |rrandom enchantments!", item->GetTemplate()->Name1.c_str());
-		else if(slotRand[0] != -1)
-			chathandle.PSendSysMessage("Newly Acquired |cffFF0000 %s |rhas received|cffFF0000 1 |rrandom enchantment!", item->GetTemplate()->Name1.c_str());
+			chathandle.PSendSysMessage("|cffDA70D6 The |cff71C671%s |cffDA70D6is marked with ancient runes that emit a radiant glow.", item->GetTemplate()->Name1.c_str());
+		else if (slotRand[1] != -1)
+			chathandle.PSendSysMessage("|cffDA70D6 The |cff71C671%s |cffDA70D6glows brightly as you pick it up.", item->GetTemplate()->Name1.c_str());
+		else if (slotRand[0] != -1)
+			chathandle.PSendSysMessage("|cffDA70D6 The |cff71C671%s |cffDA70D6is clearly a cut above the rest.", item->GetTemplate()->Name1.c_str());
 	}
+
 	int getRandEnchantment(Item* item)
 	{
 		uint32 Class = item->GetTemplate()->Class;
@@ -91,26 +168,26 @@ public:
 		uint32 Quality = item->GetTemplate()->Quality;
 		int rarityRoll = -1;
 		switch (Quality)
-		{
+            {
 		case 0://grey
-			rarityRoll = rand_norm() * 25;
+			rarityRoll = rand_norm() * 14;
 			break;
 		case 1://white
-			rarityRoll = rand_norm() * 50;
+			rarityRoll = rand_norm() * 15;
 			break;
 		case 2://green
-			rarityRoll = 45 + (rand_norm() * 20);
+			rarityRoll = 45 + (rand_norm() * 15);
 			break;
 		case 3://blue
-			rarityRoll = 65 + (rand_norm() * 15);
+			rarityRoll = 65 + (rand_norm() * 25);
 			break;
 		case 4://purple
-			rarityRoll = 80 + (rand_norm() * 14);
+			rarityRoll = 75 + (rand_norm() * 50);
 			break;
 		case 5://orange
-			rarityRoll = 93;
+			rarityRoll = 85 + (rand_norm() * 75);
 			break;
-		}
+            }
 		if (rarityRoll < 0)
 			return -1;
 		int tier = 0;
@@ -118,38 +195,20 @@ public:
 			tier = 1;
 		else if (rarityRoll <= 64)
 			tier = 2;
-		else if (rarityRoll <= 79)
+		else if (rarityRoll <= 74)
 			tier = 3;
-		else if (rarityRoll <= 92)
+		else if (rarityRoll <= 84)
 			tier = 4;
 		else
 			tier = 5;
-		
+
 		QueryResult qr = WorldDatabase.PQuery("SELECT enchantID FROM item_enchantment_random_tiers WHERE tier='%d' AND exclusiveSubClass=NULL AND class='%s' OR exclusiveSubClass='%u' OR class='ANY' ORDER BY RAND() LIMIT 1", tier, ClassQueryString.c_str(), item->GetTemplate()->SubClass);
 		return qr->Fetch()[0].GetUInt32();
 	}
 };
-class RandomEnchantsWorld : public WorldScript
+
+void AddRandomEnchantsScripts()
 {
-public:
-    RandomEnchantsWorld() : WorldScript("RandomEnchantsWorld") { }
-
-    void OnBeforeConfigLoad(bool reload) override
-    {
-        if (!reload) {
-            std::string conf_path = _CONF_DIR;
-            std::string cfg_file = conf_path + "/RandomEnchants.conf";
-
-			std::string cfg_def_file = cfg_file +".dist";
-            sConfigMgr->LoadMore(cfg_def_file.c_str());
-
-            sConfigMgr->LoadMore(cfg_file.c_str());
-        }
-    }
-};
-
-void AddRandomEnchantsScripts() {
-	new RandomEnchantsWorld();
-    new RandomEnchantsPlayer();
+	new REConfig();
+	new RandomEnchantsPlayer();
 }
-
