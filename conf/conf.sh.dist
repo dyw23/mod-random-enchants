@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+	
+#
+# CUSTOM
+#
+
+    DB_WORLD_CUSTOM_PATHS+=(
+        $MOD_RANDOM_ENCHANTS_ROOT"/sql/"
+        )
