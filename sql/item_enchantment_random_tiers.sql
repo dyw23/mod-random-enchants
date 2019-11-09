@@ -5,7 +5,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Dumping structure for table rocket_world.item_enchantment_random_tiers
+-- Dumping structure for table world.item_enchantment_random_tiers
 CREATE TABLE IF NOT EXISTS `item_enchantment_random_tiers` (
   `enchantID` int(11) DEFAULT NULL,
   `tier` int(11) DEFAULT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `item_enchantment_random_tiers` (
   `exclusiveSubClass` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table rocket_world.item_enchantment_random_tiers: ~445 rows (approximately)
+-- Dumping data for table world.item_enchantment_random_tiers: ~445 rows (approximately)
 /*!40000 ALTER TABLE `item_enchantment_random_tiers` DISABLE KEYS */;
 INSERT INTO `item_enchantment_random_tiers` (`enchantID`, `tier`, `class`, `exclusiveSubClass`) VALUES
 	(17, 1, 'ARMOR', NULL),
