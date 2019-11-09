@@ -1,10 +1,3 @@
--- --------------------------------------------------------
--- Host:                         139.99.144.148
--- Server version:               10.1.38-MariaDB-0+deb9u1 - Debian 9.8
--- Server OS:                    debian-linux-gnu
--- HeidiSQL Version:             9.5.0.5196
--- --------------------------------------------------------
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
