@@ -1,5 +1,6 @@
+# ![logo](https://raw.githubusercontent.com/azerothcore/azerothcore.github.io/master/images/logo-github.png) AzerothCore
 # RandomEnchantsModule
-- Latest build status with azerothcore: [![Build Status](https://travis-ci.org/milestorme/mod-random-enchants.svg?branch=master)](https://travis-ci.org/milestorme/mod-random-enchants)
+- Latest build status with azerothcore: [![Build Status](https://travis-ci.org/azerothcore/mod-random-enchants.svg?branch=master)](https://travis-ci.org/azerothcore/mod-random-enchants)
 
 
 * <b>!!BEFORE RUNNING!!:</b> Execute the included "conf/SQL/item_enchantment_random_tiers.sql" file on your world database. This creates a necessary table for this module.
