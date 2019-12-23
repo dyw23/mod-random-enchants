@@ -24,7 +24,7 @@ public:
 	void OnBeforeConfigLoad(bool reload) override
 	{
 		if (!reload) {
-			std::string conf_path = _CONF_DIR;
+            std::string conf_path = _CONF_DIR;
 			std::string cfg_file = conf_path + "/mod_randomenchants.conf";
 
 			std::string cfg_def_file = cfg_file + ".dist";
@@ -39,14 +39,14 @@ public:
 	// Load Configuration Settings
 	void SetInitialWorldSettings()
 	{
-		RandomEnchantEnabled = sConfigMgr->GetBoolDefault("RandomEnchants.Enabled", true);
-		RandomEnchantAnnounce = sConfigMgr->GetBoolDefault("RandomEnchants.Announce", true);
-		Crafted = sConfigMgr->GetBoolDefault("RandomEnchants.OnCreate", 1);
-		Looted = sConfigMgr->GetBoolDefault("RandomEnchants.OnLoot", 1);
-		QuestReward = sConfigMgr->GetBoolDefault("RandomEnchants.OnQuestReward", 1);
-		HighQuality = sConfigMgr->GetIntDefault("RandomEnchants.HighQuality", 1);
+        RandomEnchantEnabled = sConfigMgr->GetBoolDefault("RandomEnchants.Enabled", true);
+        RandomEnchantAnnounce = sConfigMgr->GetBoolDefault("RandomEnchants.Announce", true);
+        Crafted = sConfigMgr->GetBoolDefault("RandomEnchants.OnCreate", 1);
+        Looted = sConfigMgr->GetBoolDefault("RandomEnchants.OnLoot", 1);
+        QuestReward = sConfigMgr->GetBoolDefault("RandomEnchants.OnQuestReward", 1);
+        HighQuality = sConfigMgr->GetIntDefault("RandomEnchants.HighQuality", 1);
 		LowQuality = sConfigMgr->GetIntDefault("RandomEnchants.LowQuality", 1);
-		Chance1 = sConfigMgr->GetIntDefault("RandomEnchants.Chance1", 60);
+        Chance1 = sConfigMgr->GetIntDefault("RandomEnchants.Chance1", 60);
 		Chance2 = sConfigMgr->GetIntDefault("RandomEnchants.Chance2", 65);
 		Chance3 = sConfigMgr->GetIntDefault("RandomEnchants.Chance3", 70);
 
@@ -115,17 +115,17 @@ public:
 		int slotRand[3] = { -1, -1, -1 };
 		uint32 slotEnch[3] = { 0, 1, 5 };
 		double roll1 = rand_chance();
-		if (roll1 >= Chance1) //
+		if (roll1 >= Chance1)
 			slotRand[0] = getRandEnchantment(item);
 		if (slotRand[0] != -1)
 		{
 			double roll2 = rand_chance();
-			if (roll2 >= Chance2) //
+			if (roll2 >= Chance2)
 				slotRand[1] = getRandEnchantment(item);
 			if (slotRand[1] != -1)
 			{
 				double roll3 = rand_chance();
-				if (roll3 >= Chance3) //
+				if (roll3 >= Chance3)
 					slotRand[2] = getRandEnchantment(item);
 			}
 		}
@@ -197,7 +197,7 @@ public:
 			tier = 2;
 		else if (rarityRoll <= 74)
 			tier = 3;
-		else if (rarityRoll <= 84)
+	        else if (rarityRoll <= 84)
 			tier = 4;
 		else
 			tier = 5;
