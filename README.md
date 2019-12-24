@@ -11,3 +11,9 @@
 * Login message for the module (on, off and what to display)
 * Select if you want to enchant loot, quest reward, profession or all
 * <b>Modify the source to mess with the chances of enchantment</b>
+
+## Credits
+- [Stygiancore](https://github.com/StygianTheBest)
+- [3ndos](https://github.com/3ndos/RandomEnchantsModule)
+- [AzerothCore](https://github.com/azerothcore) - [website](http://azerothcore.org/) - [discord chat community](https://discord.gg/PaqQRkd)
+- [Milestorme](https://github.com/milestorme) 
