@@ -39,16 +39,6 @@ public:
     // Load Configuration Settings
     void SetInitialWorldSettings()
     {
-        RandomEnchantEnabled = sConfigMgr->GetBoolDefault("RandomEnchants.Enabled", true);
-        RandomEnchantAnnounce = sConfigMgr->GetBoolDefault("RandomEnchants.Announce", true);
-        Crafted = sConfigMgr->GetBoolDefault("RandomEnchants.OnCreate", 1);
-        Looted = sConfigMgr->GetBoolDefault("RandomEnchants.OnLoot", 1);
-        QuestReward = sConfigMgr->GetBoolDefault("RandomEnchants.OnQuestReward", 1);
-        HighQuality = sConfigMgr->GetIntDefault("RandomEnchants.HighQuality", 1);
-        LowQuality = sConfigMgr->GetIntDefault("RandomEnchants.LowQuality", 1);
-        Chance1 = sConfigMgr->GetIntDefault("RandomEnchants.Chance1", 60);
-        Chance2 = sConfigMgr->GetIntDefault("RandomEnchants.Chance2", 65);
-        Chance3 = sConfigMgr->GetIntDefault("RandomEnchants.Chance3", 70);
 
         // Sanitize
         if (HighQuality > 5) { HighQuality = 5; }
