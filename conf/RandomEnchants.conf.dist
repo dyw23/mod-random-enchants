@@ -41,6 +41,13 @@ RandomEnchants.OnCreate=1
 RandomEnchants.OnQuestReward=1
 
 #
+#     RandomEnchants.OnItemRoll
+#        Chance at random enchant on obtaining item from Group Roll
+#        Default:     1
+
+RandomEnchants.OnItemRoll=1
+
+#
 #     RandomEnchants.(Min/Max)ItemQuality
 #        Quality of Item Can Be Enchanted
 #        Default Min 1 (White) Max 4 (Purple)
