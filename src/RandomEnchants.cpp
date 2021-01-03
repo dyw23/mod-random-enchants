@@ -30,7 +30,7 @@ public:
 		if(sConfigMgr->GetBoolDefault("RandomEnchants.OnQuestReward", true))
 			RollPossibleEnchant(player, item);
 	}
-    void OnItemRoll(Player* player, Item* item, uint32 /*count*/) override
+    void OnItemRoll(Player* player, LootStoreItem* item, uint32 /*count*/) override
 	{
 		if(sConfigMgr->GetBoolDefault("RandomEnchants.OnItemRoll", true))
 			RollPossibleEnchant(player, item);
