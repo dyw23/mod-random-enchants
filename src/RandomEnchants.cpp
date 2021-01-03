@@ -39,8 +39,8 @@ public:
 	{
 		uint32 Quality = item->GetTemplate()->Quality;
 		uint32 Class = item->GetTemplate()->Class;
-        unit32 QualityMax = sConfigMgr->GetIntDefault("RandomEnchants.MaxItemQuality",5)
-        unit32 QualityMin = sConfigMgr->GetIntDefault("RandomEnchants.MinItemQuality",5)
+        unit32 QualityMax = sConfigMgr->GetIntDefault("RandomEnchants.MaxItemQuality",4)
+        unit32 QualityMin = sConfigMgr->GetIntDefault("RandomEnchants.MinItemQuality",1)
 		if (
             (Quality > QualityMax || Quality < QualityMin) /* eliminates enchanting anything that isn't a recognized quality */ ||
             (Class != 2 && Class != 4) /* eliminates enchanting anything but weapons/armor */)
