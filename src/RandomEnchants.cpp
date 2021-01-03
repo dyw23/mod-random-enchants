@@ -36,7 +36,7 @@ public:
 		uint32 Class = item->GetTemplate()->Class;
 
 		if (
-            (Quality > 5 || Quality < 1) /* eliminates enchanting anything that isn't a recognized quality */ ||
+            (Quality > sConfigMgr->GetIntDefault("RandomEnchants.MaxItemQuality",5) || Quality < sConfigMgr->GetIntDefault("RandomEnchants.MinItemQuality",1)) /* eliminates enchanting anything that isn't a recognized quality */ ||
             (Class != 2 && Class != 4) /* eliminates enchanting anything but weapons/armor */)
         {
 			return;
