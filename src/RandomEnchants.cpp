@@ -30,6 +30,11 @@ public:
 		if(sConfigMgr->GetBoolDefault("RandomEnchants.OnQuestReward", true))
 			RollPossibleEnchant(player, item);
 	}
+    void OnItemRoll(Player* player, Item* item, uint32 /*count*/) override
+	{
+		if(sConfigMgr->GetBoolDefault("RandomEnchants.OnItemRoll", true))
+			RollPossibleEnchant(player, item);
+	}
 	void RollPossibleEnchant(Player* player, Item* item)
 	{
 		uint32 Quality = item->GetTemplate()->Quality;
