@@ -40,3 +40,11 @@ RandomEnchants.OnCreate=1
 
 RandomEnchants.OnQuestReward=1
 
+#
+#     RandomEnchants.(Min/Max)ItemQuality
+#        Quality of Item Can Be Enchanted
+#        Default Min 1 (White) Max 4 (Purple)
+
+RandomEnchants.MinItemQuality=1
+RandomEnchants.MaxItemQuality=4
+
