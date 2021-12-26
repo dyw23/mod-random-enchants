@@ -13,7 +13,7 @@ public:
 
     void OnLogin(Player* player) override {
 		if (sConfigMgr->GetOption<bool>("RandomEnchants.AnnounceOnLogin", true))
-            ChatHandler(player->GetSession()).SendSysMessage(sConfigMgr->GetStringDefault("RandomEnchants.OnLoginMessage", "This server is running a RandomEnchants Module.").c_str());
+            ChatHandler(player->GetSession()).SendSysMessage(sConfigMgr->GetOption<std::string>("RandomEnchants.OnLoginMessage", "This server is running a RandomEnchants Module.").c_str());
     }
 	void OnLootItem(Player* player, Item* item, uint32 /*count*/, ObjectGuid /*lootguid*/) override
 	{
