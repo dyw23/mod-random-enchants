@@ -30,6 +30,11 @@ public:
             RollPossibleEnchant(player, item);
     }
 
+    void OnGroupRollRewardItem(Player* player, Item* item, uint32 /*count*/, RollVote /*voteType*/, Roll* /*roll*/)
+    {
+        RollPossibleEnchant(player, item);
+    }
+
     void RollPossibleEnchant(Player* player, Item* item) {
         uint32 Quality = item->GetTemplate()->Quality;
         uint32 Class = item->GetTemplate()->Class;
