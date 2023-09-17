@@ -40,3 +40,15 @@ RandomEnchants.OnCreate=1
 
 RandomEnchants.OnQuestReward=1
 
+# Enchant Chances
+RandomEnchants.EnchantChance1=70
+RandomEnchants.EnchantChance2=65
+RandomEnchants.EnchantChance3=60
+
+# Rarity Rolls
+RandomEnchants.RarityRollGrey=25
+RandomEnchants.RarityRollWhite=50
+RandomEnchants.RarityRollGreen=65
+RandomEnchants.RarityRollBlue=80
+RandomEnchants.RarityRollPurple=94
+RandomEnchants.RarityRollOrange=93
