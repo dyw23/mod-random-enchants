@@ -40,15 +40,61 @@ RandomEnchants.OnCreate=1
 
 RandomEnchants.OnQuestReward=1
 
-# Enchant Chances
-RandomEnchants.EnchantChance1=70
-RandomEnchants.EnchantChance2=65
-RandomEnchants.EnchantChance3=60
+###################################################################################################
+# RANDOM ENCHANT CHANCES
+#
+# These configurations determine the probability that an item will receive a random enchantment.
+# The system checks for each enchantment in sequence. If a previous enchantment isn't applied, subsequent ones won't be checked.
+#
+#     RandomEnchants.EnchantChance1
+#         Chance (in percentage) for the first random enchantment. If the roll meets or exceeds this value,
+#         the item will have a chance to receive its first enchantment.
+#         Default: 50
+RandomEnchants.EnchantChance1=50
 
-# Rarity Rolls
-RandomEnchants.RarityRollGrey=25
-RandomEnchants.RarityRollWhite=50
-RandomEnchants.RarityRollGreen=65
-RandomEnchants.RarityRollBlue=80
-RandomEnchants.RarityRollPurple=94
-RandomEnchants.RarityRollOrange=93
+#     RandomEnchants.EnchantChance2
+#         Chance (in percentage) for the second random enchantment. This only applies if the first enchantment was successful.
+#         Default: 40
+RandomEnchants.EnchantChance2=40
+
+#     RandomEnchants.EnchantChance3
+#         Chance (in percentage) for the third random enchantment. This only applies if the first and second enchantments were successful.
+#         Default: 30
+RandomEnchants.EnchantChance3=30
+
+###################################################################################################
+# RARITY ROLLS FOR ITEM QUALITIES
+#
+# These configurations determine the "rarity roll" values for items based on their quality.
+# The system uses these rolls to decide which tier of random enchantment an item might get.
+# A higher roll can lead to a higher tier of enchantment.
+#
+#     RandomEnchants.RarityRollGrey
+#         Maximum roll value for a grey item to determine its enchantment tier.
+#         Default: 15
+RandomEnchants.RarityRollGrey=15
+
+#     RandomEnchants.RarityRollWhite
+#         Maximum roll value for a white item.
+#         Default: 25
+RandomEnchants.RarityRollWhite=25
+
+#     RandomEnchants.RarityRollGreen
+#         Base roll value for a green item, with an additional random value added to determine its enchantment tier.
+#         Default: 40
+RandomEnchants.RarityRollGreen=40
+
+#     RandomEnchants.RarityRollBlue
+#         Base roll value for a blue item.
+#         Default: 55
+RandomEnchants.RarityRollBlue=55
+
+#     RandomEnchants.RarityRollPurple
+#         Base roll value for a purple item. It's designed such that purple items have a high chance to get top-tier enchantments.
+#         Default: 67
+RandomEnchants.RarityRollPurple=67
+
+#     RandomEnchants.RarityRollOrange
+#         Roll value for an orange item. Typically, orange items always get the highest tier of enchantments.
+#         Default: 83
+RandomEnchants.RarityRollOrange=83
