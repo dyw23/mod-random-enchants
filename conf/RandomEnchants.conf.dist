@@ -6,6 +6,13 @@
 #
 # RANDOM ENCHANTS OPTIONS
 #
+#     RandomEnchants.Enable
+#        Enable or disable the module
+#        Default:     1 (enabled)
+
+RandomEnchants.Enable = 1
+
+#
 #     RandomEnchants.AnnounceOnLogin
 #        Announce a message on login for this module
 #        Default:     1
@@ -39,6 +46,13 @@ RandomEnchants.OnCreate=1
 #        Default:     1
 
 RandomEnchants.OnQuestReward=1
+
+#
+#     RandomEnchants.OnGroupRoll 
+#        Chance at random enchant on obtaining item from group rolls
+#        Default:     1
+
+RandomEnchants.OnGroupRoll = 1
 
 #     RandomEnchants.EnchantChance1
 #        Probability (in percentage) for the first enchant to be applied.
