@@ -6,36 +6,43 @@
 #include "Configuration/Config.h"
 #include "Chat.h"
 
+
+
 class RandomEnchantsPlayer : public PlayerScript {
 public:
     RandomEnchantsPlayer() : PlayerScript("RandomEnchantsPlayer") { }
 
     void OnLogin(Player* player) override {
-        if (sConfigMgr->GetOption<bool>("RandomEnchants.AnnounceOnLogin", true))
+       if (sConfigMgr->GetOption<bool>("RandomEnchants.AnnounceOnLogin", true) && sConfigMgr->GetOption<bool>("RandomEnchants.Enable", true))
             ChatHandler(player->GetSession()).SendSysMessage(sConfigMgr->GetOption<std::string>("RandomEnchants.OnLoginMessage", "This server is running a RandomEnchants Module.").c_str());
     }
 
     void OnLootItem(Player* player, Item* item, uint32 /*count*/, ObjectGuid /*lootguid*/) override {
-        if (sConfigMgr->GetOption<bool>("RandomEnchants.OnLoot", true))
+        if (sConfigMgr->GetOption<bool>("RandomEnchants.OnLoot", true) && sConfigMgr->GetOption<bool>("RandomEnchants.Enable", true))
             RollPossibleEnchant(player, item);
     }
 
     void OnCreateItem(Player* player, Item* item, uint32 /*count*/) override {
-        if (sConfigMgr->GetOption<bool>("RandomEnchants.OnCreate", true))
+        if (sConfigMgr->GetOption<bool>("RandomEnchants.OnCreate", true) && sConfigMgr->GetOption<bool>("RandomEnchants.Enable", true))
             RollPossibleEnchant(player, item);
     }
 
     void OnQuestRewardItem(Player* player, Item* item, uint32 /*count*/) override {
-        if (sConfigMgr->GetOption<bool>("RandomEnchants.OnQuestReward", true))
+        if (sConfigMgr->GetOption<bool>("RandomEnchants.OnQuestReward", true) && sConfigMgr->GetOption<bool>("RandomEnchants.Enable", true))
             RollPossibleEnchant(player, item);
     }
 
-    void OnGroupRollRewardItem(Player* player, Item* item, uint32 /*count*/, RollVote /*voteType*/, Roll* /*roll*/)
-    {
-        RollPossibleEnchant(player, item);
+    void OnGroupRollRewardItem(Player* player, Item* item, uint32 /*count*/, RollVote /*voteType*/, Roll* /*roll*/) override {
+        if (sConfigMgr->GetOption<bool>("RandomEnchants.OnGroupRoll", true) && sConfigMgr->GetOption<bool>("RandomEnchants.Enable", true))
+            RollPossibleEnchant(player, item);
     }
 
+
     void RollPossibleEnchant(Player* player, Item* item) {
+        // Check global enable option
+        if (!sConfigMgr->GetOption<bool>("RandomEnchants.Enable", true)) {
+            return;
+        }
         uint32 Quality = item->GetTemplate()->Quality;
         uint32 Class = item->GetTemplate()->Class;
 
