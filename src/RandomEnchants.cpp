@@ -11,7 +11,15 @@ private:
     // Helper function to retrieve a configuration option
     template <typename T>
     T GetConfigOption(const std::string& optionName, const T& defaultValue) {
-        return sConfigMgr->GetOption<T>(optionName, defaultValue);
+        if constexpr (std::is_same_v<T, double>) {
+            // Retrieve the config value as a string
+            std::string strValue = sConfigMgr->GetOption<std::string>(optionName, std::to_string(defaultValue));
+            // Convert and return the string value to double
+            return std::stod(strValue);
+        }
+        else {
+            return sConfigMgr->GetOption<T>(optionName, defaultValue);
+        }
     }
 
 public:
