@@ -1,9 +1,6 @@
 /*
 * Converted from the original LUA script to a module for Azerothcore(Sunwell) :D
 */
-/*
-* Converted from the original LUA script to a module for Azerothcore(Sunwell) :D
-*/
 #include "ScriptMgr.h"
 #include "Player.h"
 #include "Configuration/Config.h"
