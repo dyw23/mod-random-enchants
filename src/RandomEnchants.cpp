@@ -1,12 +1,23 @@
 /*
 * Converted from the original LUA script to a module for Azerothcore(Sunwell) :D
 */
+/*
+* Converted from the original LUA script to a module for Azerothcore(Sunwell) :D
+*/
 #include "ScriptMgr.h"
 #include "Player.h"
 #include "Configuration/Config.h"
 #include "Chat.h"
 
-
+// Enum for item qualities
+enum ItemQuality {
+    GREY = 0,
+    WHITE,
+    GREEN,
+    BLUE,
+    PURPLE,
+    ORANGE
+};
 
 class RandomEnchantsPlayer : public PlayerScript {
 public:
@@ -36,7 +47,6 @@ public:
         if (sConfigMgr->GetOption<bool>("RandomEnchants.OnGroupRoll", true) && sConfigMgr->GetOption<bool>("RandomEnchants.Enable", true))
             RollPossibleEnchant(player, item);
     }
-
 
     void RollPossibleEnchant(Player* player, Item* item) {
         // Check global enable option
@@ -85,7 +95,6 @@ public:
             chathandle.PSendSysMessage("Newly Acquired |cffFF0000 %s |rhas received|cffFF0000 1 |rrandom enchantment!", item->GetTemplate()->Name1.c_str());
     }
 
-
     int getRandEnchantment(Item* item) {
         uint32 Class = item->GetTemplate()->Class;
         std::string ClassQueryString = "";
@@ -102,22 +111,22 @@ public:
         uint32 Quality = item->GetTemplate()->Quality;
         int rarityRoll = -1;
         switch (Quality) {
-        case 0: //grey
+        case GREY:
             rarityRoll = rand_norm() * 25;
             break;
-        case 1: //white
+        case WHITE:
             rarityRoll = rand_norm() * 50;
             break;
-        case 2: //green
+        case GREEN:
             rarityRoll = 45 + (rand_norm() * 20);
             break;
-        case 3: //blue
+        case BLUE:
             rarityRoll = 65 + (rand_norm() * 15);
             break;
-        case 4: //purple
+        case PURPLE:
             rarityRoll = 80 + (rand_norm() * 14);
             break;
-        case 5: //orange
+        case ORANGE:
             rarityRoll = 93;
             break;
         }
@@ -143,3 +152,5 @@ public:
 void AddRandomEnchantsScripts() {
     new RandomEnchantsPlayer();
 }
+
+
