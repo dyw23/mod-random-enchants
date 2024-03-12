@@ -48,12 +48,19 @@ void rollPossibleEnchant(Player* player, Item* item)
 
     ChatHandler chathandle = ChatHandler(player->GetSession());
 
+    uint8 loc_idx = player->GetSession()->GetSessionDbLocaleIndex();
+    const ItemTemplate* temp = item->GetTemplate();
+    std::string name = temp->Name1;
+    if (ItemLocale const* il = sObjectMgr->GetItemLocale(temp->ItemId))
+        ObjectMgr::GetLocaleString(il->Name, loc_idx, name);
+
+
     if (slotRand[2] != -1)
-        chathandle.PSendSysMessage("Newly Acquired |cffFF0000 %s |rhas received|cffFF0000 3 |rrandom enchantments!", item->GetTemplate()->Name1.c_str());
+        chathandle.PSendSysMessage("Newly Acquired |cffFF0000 %s |rhas received|cffFF0000 3 |rrandom enchantments!", name);
     else if (slotRand[1] != -1)
-        chathandle.PSendSysMessage("Newly Acquired |cffFF0000 %s |rhas received|cffFF0000 2 |rrandom enchantments!", item->GetTemplate()->Name1.c_str());
+        chathandle.PSendSysMessage("Newly Acquired |cffFF0000 %s |rhas received|cffFF0000 2 |rrandom enchantments!", name);
     else if (slotRand[0] != -1)
-        chathandle.PSendSysMessage("Newly Acquired |cffFF0000 %s |rhas received|cffFF0000 1 |rrandom enchantment!", item->GetTemplate()->Name1.c_str());
+        chathandle.PSendSysMessage("Newly Acquired |cffFF0000 %s |rhas received|cffFF0000 1 |rrandom enchantment!", name);
 }
 
 uint32 getRandEnchantment(Item* item)
@@ -62,7 +69,7 @@ uint32 getRandEnchantment(Item* item)
     uint32 itemQuality = item->GetTemplate()->Quality;
     std::string classQueryString = "";
     int rarityRoll = -1;
-    int tier = 0;
+    uint8 tier = 0;
 
     switch (itemClass)
     {
@@ -113,7 +120,7 @@ uint32 getRandEnchantment(Item* item)
     else
         tier = 5;
 
-    QueryResult result = WorldDatabase.Query("SELECT `enchantID` FROM `item_enchantment_random_tiers` WHERE `tier`={} AND `exclusiveSubClass`=NULL AND `class`='{}' OR exclusiveSubClass='{}' OR `class`='ANY' ORDER BY RAND() LIMIT 1", tier, classQueryString, item->GetTemplate()->SubClass);
+    QueryResult result = WorldDatabase.Query("SELECT `enchantID` FROM `item_enchantment_random_tiers` WHERE `tier`={} AND `exclusiveSubClass`=NULL AND exclusiveSubClass='{}' OR `class`='{}' OR `class`='ANY' ORDER BY RAND() LIMIT 1", tier, item->GetTemplate()->SubClass, classQueryString, classQueryString);
 
     if (!result)
         return 0;
