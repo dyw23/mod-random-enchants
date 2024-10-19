@@ -56,11 +56,11 @@ void rollPossibleEnchant(Player* player, Item* item)
 
 
     if (slotRand[2] != -1)
-        chathandle.PSendSysMessage("Newly Acquired |cffFF0000 {} |rhas received|cffFF0000 3 |rrandom enchantments!", name);
+        chathandle.PSendSysMessage("三生有幸 |cffFF0000 {} |r获得|cffFF0000 3 |r条随机附魔!", name);
     else if (slotRand[1] != -1)
-        chathandle.PSendSysMessage("Newly Acquired |cffFF0000 {} |rhas received|cffFF0000 2 |rrandom enchantments!", name);
+        chathandle.PSendSysMessage("二龙戏珠 |cffFF0000 {} |r获得|cffFF0000 2 |r条随机附魔!", name);
     else if (slotRand[0] != -1)
-        chathandle.PSendSysMessage("Newly Acquired |cffFF0000 {} |rhas received|cffFF0000 1 |rrandom enchantment!", name);
+        chathandle.PSendSysMessage("一帆风顺 |cffFF0000 {} |r获得|cffFF0000 1 |r条随机附魔!", name);
 }
 
 uint32 getRandEnchantment(Item* item)
